@@ -1,0 +1,7 @@
+aiogram
+asyncio
+requests
+todoist-python
+aioschedule
+bs4
+selenium
