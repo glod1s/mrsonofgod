@@ -5,16 +5,13 @@ import translation
 
 from alimain import alilink
 from todoist_check import check_items_todoist
-from tracking_keyboard import *
 from aiogram.dispatcher import FSMContext
 from states import *
 from main import bot, dp
 from aiogram.utils import exceptions
 from aiogram.types import Message, BotCommand, input_file
 from config import GOD, ALLOWED_USERS
-from dbcmd import DBCommands
 
-database = DBCommands()
 
 async def start_message_for_admin(dp):
     try:
