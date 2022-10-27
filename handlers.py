@@ -43,13 +43,11 @@ async def todoist_message():
 
 @dp.message_handler(user_id=ALLOWED_USERS, commands=['start'])
 async def start(message: Message):
-    await database.add_new_user()
     await message.answer('У повній готовності!')
 
 
 @dp.message_handler(commands=['start'])
 async def start(message: Message):
-    await database.add_new_user()
     await message.answer('Працюю лише з обраними людьми.')
 
 
