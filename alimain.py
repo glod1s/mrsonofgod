@@ -10,7 +10,6 @@ mobile_emulation = {
    "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19" }
 
 chrome_options = Options()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
@@ -20,7 +19,7 @@ chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
 
 
 def alilink(link):
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path="/home/ubuntu/bots/chromedriver", chrome_options=chrome_options)
     try:
         driver.get(link)
         driver.implicitly_wait(3)
