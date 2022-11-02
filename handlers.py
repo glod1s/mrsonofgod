@@ -10,6 +10,7 @@ from states import *
 from main import bot, dp
 from aiogram.utils import exceptions
 from aiogram.types import Message, BotCommand, input_file
+from aiogram.types.message import ContentType
 from config import GOD, ALLOWED_USERS
 
 
