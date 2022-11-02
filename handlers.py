@@ -83,3 +83,18 @@ async def translate_send(message: Message, state=FSMContext):
     word = message.text
     await state.finish()
     await message.answer(translation.parse(word), disable_web_page_preview=True)
+
+
+@dp.message_handler(user_id=ALLOWED_USERS, content_types=ContentType.ANY)
+async def parse_groups(message: Message):
+    string = message.text
+    if string is None:
+        string = message.caption
+    word = "https://a.aliexpress.com/_"
+    if word in string:
+        start = string.find(word)
+        link = string[start:start + 33]
+        msg = await message.answer('Please, wait')
+        text = alilink(link)
+        await message.answer_photo(input_file.InputFile("pipka.png"), text)
+        await msg.delete()
