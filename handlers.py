@@ -92,9 +92,13 @@ async def parse_groups(message: Message):
     if string is None:
         string = message.caption
     word = "https://a.aliexpress.com/_"
-    if word in string:
+    word1 = "https://s.click.aliexpress.com/e/_"
+    if word in string or word1 in string:
         start = string.find(word)
-        link = string[start:start + 33]
+        if word1 in string:
+            link = string[start:start + 41]
+        else:
+            link = string[start:start + 33]
         msg = await message.answer('Please, wait')
         text = alilink(link)
         await message.answer_photo(input_file.InputFile("pipka.png"), text)
