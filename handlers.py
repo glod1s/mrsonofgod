@@ -94,10 +94,11 @@ async def parse_groups(message: Message):
     word = "https://a.aliexpress.com/_"
     word1 = "https://s.click.aliexpress.com/e/_"
     if word in string or word1 in string:
-        start = string.find(word)
         if word1 in string:
+            start = string.find(word1)
             link = string[start:start + 41]
         else:
+            start = string.find(word)
             link = string[start:start + 33]
         msg = await message.answer('Please, wait')
         text = alilink(link)
