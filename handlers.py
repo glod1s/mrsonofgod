@@ -117,7 +117,7 @@ async def parse_groups(message: Message):
             info = db.get_textid(oldlink)
             text = info[0].replace(oldlink, newlink)
             await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text)
-            db.update(text, oldlink)
+            db.update(text, newlink, oldlink)
     elif word in string or word1 in string:
         f = 0
         if word1 in string:

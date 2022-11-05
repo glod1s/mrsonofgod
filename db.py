@@ -23,9 +23,9 @@ class SQ:
         with self.connection:
             return self.connection.execute("SELECT `text`, `msgid` FROM alilinks WHERE `referral` = ?", (link,)).fetchone()
 
-    def update(self, text, link):
+    def update(self, text, reflink, link):
         with self.connection:
-            return self.cursor.execute('UPDATE `alilinks` SET `text` = ?, referral = ? WHERE `link`=?', (text, True, link,))
+            return self.cursor.execute('UPDATE `alilinks` SET `text` = ?, referral = ? WHERE `link`=?', (text, reflink, link,))
 
     def link_exists(self, link):
         with self.connection:
