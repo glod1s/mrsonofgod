@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import os
+import time
 
 mobile_emulation = {
 
@@ -24,11 +25,11 @@ def alilink(link):
         driver.get(link)
         driver.implicitly_wait(3)
         name = driver.find_element(By.CLASS_NAME, "backflowUI--productName--2sqbI7y").text
-        screen = "pipka.png"
+        screen = str(time.time())+".png"
         driver.find_element(By.CLASS_NAME, "backflowUI--wrapper--2cztXEy").screenshot(screen)
         driver.quit()
         text = f"ℹ️{name}ℹ️\n🔥 {link} 🔥"
-        result = text
+        result = [text, screen]
         return result
     except:
         driver.quit()
