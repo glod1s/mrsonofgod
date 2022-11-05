@@ -113,7 +113,7 @@ async def parse_groups(message: Message):
         links = string.strip().split(" ")
         oldlink = links[0]
         newlink = links[1]
-        if not db.check_noref(oldlink):
+        if db.check_noref(oldlink)[0] == 0:
             info = db.get_textid(oldlink)
             text = info[0].replace(oldlink, newlink)
             await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text)
