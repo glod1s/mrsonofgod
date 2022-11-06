@@ -8,7 +8,7 @@ class SQ:
 
     def get_noref(self):
         with self.connection:
-            return self.cursor.execute('SELECT `link` FROM alilinks WHERE referral = ?', (False,)).fetchall()
+            return self.cursor.execute('SELECT `link` FROM alilinks WHERE referral = ? AND time IS NOT NULL', (False,)).fetchall()
 
     def check_noref(self, link):
         with self.connection:
