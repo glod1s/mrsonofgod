@@ -118,6 +118,7 @@ async def parse_groups(message: Message):
             text = info[0].replace(oldlink, newlink)
             await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text)
             db.update(text, newlink, oldlink)
+            await message.answer(f"Old link {oldlink} changed with {newlink} ✅")
     elif word in string or word1 in string:
         f = 0
         if word1 in string:
@@ -130,16 +131,19 @@ async def parse_groups(message: Message):
         msg = await message.answer('Please, wait')
         result = alilink(link)
         await message.answer_photo(input_file.InputFile(result[1]), result[0])
-        if f == 0:
-            if db.link_exists(link):
-                info = db.get_textid(link)
-                await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-                                             chat_id="@aligroupbuychannel", message_id=info[1])
-        else:
-            if db.link_exists1(link):
-                info = db.get_textid1(link)
-                await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-                                             chat_id="@aligroupbuychannel", message_id=info[1])
+        try:
+            if f == 0:
+                if db.link_exists(link):
+                    info = db.get_textid(link)
+                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                                                 chat_id="@aligroupbuychannel", message_id=info[1])
+            else:
+                if db.link_exists1(link):
+                    info = db.get_textid1(link)
+                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                                                 chat_id="@aligroupbuychannel", message_id=info[1])
+        except:
+            await message.answer("Error while trying to change screenshot")
         delete_ali_photo(result[1])
         await msg.delete()
 
