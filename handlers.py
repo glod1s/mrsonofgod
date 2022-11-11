@@ -112,7 +112,7 @@ async def parse_groups(message: Message):
     if word in string and word1 in string:
         oldstart = string.find(word)
         newstart = string.find(word1)
-        oldlink = string[oldstart:oldstart + 41]
+        oldlink = string[oldstart:oldstart + 33]
         newlink = string[newstart:newstart + 41]
         if db.check_noref(oldlink)[0] == 0:
             info = db.get_textid(oldlink)
