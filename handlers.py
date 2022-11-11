@@ -110,9 +110,10 @@ async def parse_groups(message: Message):
     word = "https://a.aliexpress.com/_"
     word1 = "https://s.click.aliexpress.com/e/_"
     if word in string and word1 in string:
-        links = string.strip().split(" ")
-        oldlink = links[0]
-        newlink = links[1]
+        oldstart = string.find(word)
+        newstart = string.find(word1)
+        oldlink = string[oldstart:oldstart + 41]
+        newlink = string[newstart:newstart + 41]
         if db.check_noref(oldlink)[0] == 0:
             info = db.get_textid(oldlink)
             text = info[0].replace(oldlink, newlink)
