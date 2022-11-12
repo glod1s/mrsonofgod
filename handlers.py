@@ -132,19 +132,19 @@ async def parse_groups(message: Message):
         msg = await message.answer('Please, wait')
         result = alilink(link)
         await message.answer_photo(input_file.InputFile(result[1]), result[0])
-        #try:
-        #    if f == 0:
-        #        if db.link_exists(link):
-        #            info = db.get_textid(link)
-        #            await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-        #                                         chat_id="@aligroupbuychannel", message_id=info[1])
-        #    else:
-        #        if db.link_exists1(link):
-        #            info = db.get_textid1(link)
-        #            await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-        #                                         chat_id="@aligroupbuychannel", message_id=info[1])
-        #except:
-        #    await message.answer("Error while trying to change screenshot")
+        try:
+            if f == 0:
+                if db.link_exists(link):
+                    info = db.get_textid(link)
+                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                                                 chat_id="@aligroupbuychannel", message_id=info[1])
+            else:
+                if db.link_exists1(link):
+                    info = db.get_textid1(link)
+                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                                                 chat_id="@aligroupbuychannel", message_id=info[1])
+        except:
+            await message.answer("Error while trying to change screenshot")
         delete_ali_photo(result[1])
         await msg.delete()
 
