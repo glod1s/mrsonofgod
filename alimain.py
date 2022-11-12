@@ -26,7 +26,9 @@ def alilink(link):
         driver.implicitly_wait(3)
         name = driver.find_element(By.CLASS_NAME, "backflowUI--productName--2sqbI7y").text
         screen = str(time.time())+".png"
-        driver.find_element(By.CLASS_NAME, "backflowUI--wrapper--2cztXEy").screenshot(screen)
+        #driver.find_element(By.CLASS_NAME, "backflowUI--wrapper--2cztXEy").screenshot(screen)
+        driver.find_element(By.CLASS_NAME, "backflowUI--productName--2sqbI7y").click()
+        driver.find_element(By.ID, "root").screenshot(screen)
         driver.quit()
         text = f"ℹ️{name}ℹ️\n🔥 {link} 🔥"
         result = [text, screen]
