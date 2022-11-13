@@ -34,7 +34,7 @@ async def start_message_for_admin(dp):
 
 async def schedule():
     aioschedule.every().day.at("5:00").do(todoist_message)
-    aioschedule.every().hour.do()
+    aioschedule.every().hour.do(check_groups)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
