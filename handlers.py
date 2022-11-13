@@ -54,7 +54,7 @@ async def check_groups():
             try:
                 db.update_left(result[2], i[0])
                 info = db.get_textid(i[0])
-                await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0], parse_mode="HTML"),
                                                 chat_id="@aligroupbuychannel", message_id=info[1])
             except:
                 pass
