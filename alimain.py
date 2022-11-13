@@ -27,9 +27,14 @@ def alilink(link):
         name = driver.find_element(By.CLASS_NAME, "backflowUI--productName--2sqbI7y").text
         screen = str(time.time())+".png"
         driver.find_element(By.CLASS_NAME, "backflowUI--wrapper--2cztXEy").screenshot(screen)
+        try:
+            needpeople = driver.find_element(By.CLASS_NAME, "InviteList--needUser--O3VEcsM").text
+            needpeople = int([int(s) for s in needpeople.split() if s.isdigit()][0])
+        except:
+            needpeople = 0
         driver.quit()
         text = f"ℹ️{name}ℹ️\n🔥 {link} 🔥"
-        result = [text, screen]
+        result = [text, screen, needpeople]
         return result
     except:
         driver.quit()

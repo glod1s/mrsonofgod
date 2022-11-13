@@ -36,3 +36,12 @@ class SQ:
         with self.connection:
             result = self.cursor.execute("SELECT * FROM `alilinks` WHERE `referral` = ?", (link,)).fetchall()
             return result
+
+    def not_full_groups(self):
+        with self.connection:
+            result = self.cursor.execute("SELECT link, `left` FROM `alilinks` WHERE `left` != ?", (0,)).fetchall()
+            return result
+
+    def update_left(self, left, link):
+        with self.connection:
+            result = self.cursor.execute('UPDATE `alilinks` SET `left` = ? WHERE `link`=?', (left, link,))

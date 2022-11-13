@@ -34,6 +34,7 @@ async def start_message_for_admin(dp):
 
 async def schedule():
     aioschedule.every().day.at("5:00").do(todoist_message)
+    aioschedule.every().hour.do()
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
@@ -43,6 +44,23 @@ async def todoist_message():
     if tasks != 0:
         message = "📑Доброго ранку! Ваші цілі на сьогодні:\n" + tasks
         await bot.send_message(GOD, message, disable_web_page_preview=True)
+
+
+async def check_groups():
+    list_notfull = db.not_full_groups()
+    for i in list_notfull:
+        result = alilink(i[0])
+        if result != 0 and result[2] != i[1]:
+            try:
+                db.update_left(result[2], i[0])
+                info = db.get_textid(i[0])
+                await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
+                                                chat_id="@aligroupbuychannel", message_id=info[1])
+            except:
+                pass
+            finally:
+                delete_ali_photo(result[1])
+                await asyncio.sleep(3)
 
 
 @dp.message_handler(user_id=ALLOWED_USERS, commands=['start'])
