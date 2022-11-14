@@ -56,14 +56,14 @@ async def check_groups():
                 info = db.get_textid(i[0])
                 text = info[0]
                 if result[2] == 0:
-                    needpeoplenewtext = "✅✅ <b>Group is full! You can buy it!</b> ✅✅"
+                    needpeoplenewtext = "✅ <b>Group is full! You can buy it!</b> ✅"
                 elif result[2] == 1:
                     needpeoplenewtext = "⚠️ <b>Need 1 person</b> ⚠️"
                 else:
                     needpeoplenewtext = f"⚠️ <b>Need {str(result[2])} people</b> ⚠️"
 
                 if i[1] == 0:
-                    needpeopleoldtext = "✅✅ <b>Group is full! You can buy it!</b> ✅✅"
+                    needpeopleoldtext = "✅ <b>Group is full! You can buy it!</b> ✅"
                 elif i[1] == 1:
                     needpeopleoldtext = "⚠️ <b>Need 1 person</b> ⚠️"
                 else:
