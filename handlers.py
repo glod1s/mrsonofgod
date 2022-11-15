@@ -52,7 +52,6 @@ async def check_groups():
         result = alilink(i[0])
         if result != 0 and result[2] != i[1]:
             try:
-                db.update_left(result[2], i[0])
                 info = db.get_textid(i[0])
                 text = info[0]
                 if result[2] == 0:
@@ -68,14 +67,14 @@ async def check_groups():
                     needpeopleoldtext = "⚠️ <b>Need 1 person</b> ⚠️"
                 else:
                     needpeopleoldtext = f"⚠️ <b>Need {str(i[1])} people</b> ⚠️"
-
                 text = text.replace(needpeopleoldtext, needpeoplenewtext)
+                db.update_left(result[2], text, i[0])
                 await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text, parse_mode='HTML')
             except:
                 pass
             finally:
                 delete_ali_photo(result[1])
-                await asyncio.sleep(3)
+                await asyncio.sleep(5)
 
 
 @dp.message_handler(user_id=ALLOWED_USERS, commands=['start'])

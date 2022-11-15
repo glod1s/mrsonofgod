@@ -42,6 +42,6 @@ class SQ:
             result = self.cursor.execute("SELECT link, `left` FROM `alilinks` WHERE `left` != ?", (0,)).fetchall()
             return result
 
-    def update_left(self, left, link):
+    def update_left(self, left, text, link):
         with self.connection:
-            result = self.cursor.execute('UPDATE `alilinks` SET `left` = ? WHERE `link`=?', (left, link,))
+            result = self.cursor.execute('UPDATE `alilinks` SET `left` = ?, `text` = ? WHERE `link`=?', (left, text, link,))
