@@ -48,7 +48,7 @@ async def todoist_message():
 
 async def check_groups():
     list_notfull = db.not_full_groups()
-    await bot.send_message(-1001796338322, "🔵🔵🔵🔵🔵\nChecking left started\n🔵🔵🔵🔵🔵")
+    await bot.send_message(-1001736023833, "🔵🔵🔵🔵🔵\nChecking left started\n🔵🔵🔵🔵🔵")
     for i in list_notfull:
         result = alilink(i[0])
         if result != 0 and result[2] != i[1]:
@@ -72,11 +72,11 @@ async def check_groups():
                 db.update_left(result[2], text, i[0])
                 await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text, parse_mode='HTML')
             except:
-                await bot.send_message(-1001796338322, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n🔴🔴🔴🔴🔴")
+                await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n🔴🔴🔴🔴🔴")
             finally:
                 delete_ali_photo(result[1])
                 await asyncio.sleep(5)
-    await bot.send_message(-1001796338322, "🟢🟢🟢🟢🟢\nChecking left finished\n🟢🟢🟢🟢🟢")
+    await bot.send_message(-1001736023833, "🟢🟢🟢🟢🟢\nChecking left finished\n🟢🟢🟢🟢🟢")
 
 
 @dp.message_handler(user_id=ALLOWED_USERS, commands=['start'])
