@@ -74,8 +74,11 @@ async def check_groups():
             except:
                 await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n🔴🔴🔴🔴🔴")
             finally:
-                delete_ali_photo(result[1])
                 await asyncio.sleep(5)
+        try:
+            delete_ali_photo(result[1])
+        except:
+            pass
     await bot.send_message(-1001736023833, "🟢🟢🟢🟢🟢\nChecking left finished\n🟢🟢🟢🟢🟢")
 
 
