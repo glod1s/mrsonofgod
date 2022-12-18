@@ -10,8 +10,7 @@ from aiogram.dispatcher import FSMContext
 from states import *
 from main import bot, dp
 from aiogram.utils import exceptions
-from aiogram.types import Message, BotCommand, input_file, InputMediaPhoto
-from aiogram.types.message import ContentType
+from aiogram.types import Message, BotCommand, input_file
 from config import GOD, ALLOWED_USERS
 
 db = SQ('/home/ubuntu/bots/db/db.db')
@@ -24,9 +23,7 @@ async def start_message_for_admin(dp):
     await dp.bot.set_my_commands(
         [
             BotCommand("start", "працездатність"),
-            BotCommand("translate", "переклад слів (українська та англійська)"),
-            BotCommand("noref", "посилання без рефералки"),
-            BotCommand("aligroupbuy", "отримати готовий пост для AliGroupBuy")
+            BotCommand("translate", "переклад слів (українська та англійська)")
 
         ]
     )
@@ -70,7 +67,7 @@ async def check_groups():
                     needpeopleoldtext = f"⚠️ <b>Need {str(i[1])} people</b> ⚠️"
                 text = text.replace(needpeopleoldtext, needpeoplenewtext)
                 db.update_left(result[2], text, i[0])
-                await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text, parse_mode='HTML')
+                await bot.send_message(-1001796338322, f'UPDATE|||||{info[1]}|||||{text}')
             except:
                 await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n🔴🔴🔴🔴🔴")
             finally:
@@ -90,24 +87,6 @@ async def start(message: Message):
 @dp.message_handler(commands=['start'])
 async def start(message: Message):
     await message.answer('Працюю лише з обраними людьми.')
-
-
-@dp.message_handler(user_id=ALLOWED_USERS, commands=['aligroupbuy'])
-async def ali(message: Message):
-    await message.answer('Надішліть посилання на свою групу')
-    await AliLink.waitingLink.set()
-
-
-@dp.message_handler(user_id=ALLOWED_USERS, commands=['noref'])
-async def noref(message: Message):
-    norefs = db.get_noref()
-    text = ""
-    for i in norefs:
-        text += f"{i[0]}\n"
-    try:
-        await message.answer(text)
-    except:
-        await message.answer("Something went wrong. Probably message is too big")
 
 
 @dp.message_handler(user_id=ALLOWED_USERS, commands=['translate'], state=None)
@@ -137,51 +116,4 @@ async def translate_send(message: Message, state=FSMContext):
     word = message.text
     await state.finish()
     await message.answer(translation.parse(word), disable_web_page_preview=True)
-
-
-@dp.message_handler(user_id=ALLOWED_USERS, content_types=ContentType.ANY)
-async def parse_groups(message: Message):
-    string = message.text
-    if string is None:
-        string = message.caption
-    word = "https://a.aliexpress.com/_"
-    word1 = "https://s.click.aliexpress.com/e/_"
-    if word in string and word1 in string:
-        oldstart = string.find(word)
-        newstart = string.find(word1)
-        oldlink = string[oldstart:oldstart + 33]
-        newlink = string[newstart:newstart + 41]
-        if db.check_noref(oldlink)[0] == 0:
-            info = db.get_textid(oldlink)
-            text = info[0].replace(oldlink, newlink)
-            await bot.edit_message_caption("@aligroupbuychannel", info[1], caption=text)
-            db.update(text, newlink, oldlink)
-            await message.answer(f"Old link {oldlink} changed with {newlink} ✅")
-    elif word in string or word1 in string:
-        f = 0
-        if word1 in string:
-            f = 1
-            start = string.find(word1)
-            link = string[start:start + 41]
-        else:
-            start = string.find(word)
-            link = string[start:start + 33]
-        msg = await message.answer('Please, wait')
-        result = alilink(link)
-        await message.answer_photo(input_file.InputFile(result[1]), result[0])
-        try:
-            if f == 0:
-                if db.link_exists(link):
-                    info = db.get_textid(link)
-                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-                                                 chat_id="@aligroupbuychannel", message_id=info[1])
-            else:
-                if db.link_exists1(link):
-                    info = db.get_textid1(link)
-                    await bot.edit_message_media(InputMediaPhoto(open(result[1], 'rb'), caption=info[0]),
-                                                 chat_id="@aligroupbuychannel", message_id=info[1])
-        except:
-            await message.answer("Error while trying to change screenshot")
-        delete_ali_photo(result[1])
-        await msg.delete()
 
