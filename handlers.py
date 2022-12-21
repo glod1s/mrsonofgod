@@ -68,8 +68,8 @@ async def check_groups():
                 text = text.replace(needpeopleoldtext, needpeoplenewtext)
                 db.update_left(result[2], text, i[0])
                 await bot.send_message(-1001796338322, f'UPDATE|||||{info[1]}|||||{text}', parse_mode="Markdown")
-            except:
-                await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n🔴🔴🔴🔴🔴")
+            except Exception as e:
+                await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n{e}\n🔴🔴🔴🔴🔴")
             finally:
                 await asyncio.sleep(5)
         try:
