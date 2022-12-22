@@ -67,7 +67,7 @@ async def check_groups():
                     needpeopleoldtext = f"⚠️ <b>Need {str(i[1])} people</b> ⚠️"
                 text = text.replace(needpeopleoldtext, needpeoplenewtext)
                 db.update_left(result[2], text, i[0])
-                await bot.send_message(-1001796338322, f'UPDATE|||||{info[1]}|||||{text}', parse_mode="Markdown")
+                await bot.send_message(-1001796338322, f'UPDATE|||||{info[1]}|||||{text}')
             except Exception as e:
                 await bot.send_message(-1001736023833, f"🔴🔴🔴🔴🔴\nTroubles with {i[0]}\n{e}\n🔴🔴🔴🔴🔴")
             finally:
@@ -95,25 +95,15 @@ async def translate(message: Message):
     await Translation.translate.set()
 
 
-@dp.message_handler(commands=['cancel'], state=[AliLink.waitingLink, Translation.translate])
+@dp.message_handler(commands=['cancel'], state=[Translation.translate])
 async def cancel_translation(message: Message, state=FSMContext):
     await state.finish()
     await message.answer('Cancelled')
-
-
-@dp.message_handler(state=AliLink.waitingLink)
-async def ali_send(message: Message, state=FSMContext):
-    await state.finish()
-    msg = await message.answer('Please, wait')
-    result = alilink(message.text)
-    await message.answer_photo(input_file.InputFile(result[1]), result[0])
-    delete_ali_photo(result[1])
-    await msg.delete()
 
 
 @dp.message_handler(state=Translation.translate)
 async def translate_send(message: Message, state=FSMContext):
     word = message.text
     await state.finish()
-    await message.answer(translation.parse(word), disable_web_page_preview=True)
+    await message.answer(translation.parse(word), disable_web_page_preview=True, parse_mode='HTML')
 

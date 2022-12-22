@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 
 storage = MemoryStorage()
 loop = asyncio.get_event_loop()
-bot = aiogram.Bot(config.BOT_TOKEN, parse_mode='HTML')
+bot = aiogram.Bot(config.BOT_TOKEN)
 dp = aiogram.Dispatcher(bot, loop=loop, storage=storage)
 
 if __name__ == '__main__':
